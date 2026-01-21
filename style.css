@@ -45,16 +45,44 @@ header {
 
 
 header nav a {
-  color: #fff;
+  position: relative;
+  color: rgba(255, 255, 255, 0.9);
   margin-left: 20px;
   text-decoration: none;
   font-weight: 500;
-  transition: transform 0.6s ease;
+  letter-spacing: 0.3px;
 
+  padding: 6px 0;
+
+  transition:
+    color 0.3s ease,
+    transform 0.3s ease;
 }
 
-header nav a:hover{
-  text-decoration: overline;
+/* Hover effect */
+header nav a:hover {
+  color: #ffffff;
+  transform: translateY(-2px);
+}
+
+/* Elegant underline animation */
+header nav a::after {
+  content: "";
+  position: absolute;
+  left: 50%;
+  bottom: -6px;
+  width: 0;
+  height: 2px;
+
+  background: linear-gradient(90deg, #f5c542, #ffd36a);
+  border-radius: 2px;
+
+  transform: translateX(-50%);
+  transition: width 0.3s ease;
+}
+
+header nav a:hover::after {
+  width: 100%;
 }
 
 /* Hero Section */
@@ -205,43 +233,40 @@ header nav a:hover{
   margin-top: 60px;
   margin-bottom: 40px;
 }
-
-
-.service-card {
-  color: rgb(0, 0, 0);
-  border-radius: 8px;
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.808);
-  text-align: center;
-  align-items: center;
-  width:auto; 
+/* =========================
+   Service Card Base
+========================= */
+.service-card,
+.service-card-right {
+  height:auto;
   position: relative;
-  padding: 20px;
-  margin-left: 60px;
-  margin-right: 60px;
-  margin-top: 60px;
+  display: flex;
+  align-items: center;
+
+  background: #e4e4e4;
+  border-radius: 16px;
+
+  padding: 48px;
+  margin: 60px;
+
   overflow: hidden;
-}
-.service-card img{
-  height: auto;
-  width: auto;
-  border-radius: 8px;
 
-}
-.service-card h3{
-font-size: 2rem;
-padding-top: 20px;
-padding-bottom: 20px;
-}
-.service-card p {
-  font-size: 1.2rem;
-  padding-bottom: 20px;
-  text-align: justify;
-}
+  box-shadow:
+    0 8px 24px rgba(0, 0, 0, 0.08),
+    0 2px 6px rgba(0, 0, 0, 0.06);
 
-.service-card {
   opacity: 0;
-  transform: translateX(-100px);
-  transition: all 0.8s ease-out;
+  transition:
+    opacity 0.7s ease,
+    transform 0.7s ease,
+    box-shadow 0.3s ease;
+}
+
+/* =========================
+   Entrance Animations
+========================= */
+.service-card {
+  transform: translateX(-48px);
 }
 
 .service-card.show-left {
@@ -250,15 +275,97 @@ padding-bottom: 20px;
 }
 
 .service-card-right {
-  opacity: 0;
-  transform: translateX(100px);
-  transition: all 0.8s ease-out;
+  transform: translateX(48px);
 }
 
 .service-card-right.show-right {
   opacity: 1;
   transform: translateX(0);
 }
+
+/* =========================
+   Text Content
+========================= */
+.service-card h3,
+.service-card p,
+.service-card-right h3,
+.service-card-right p {
+  position: relative;
+  z-index: 2;
+  max-width: 60%;
+}
+
+/* =========================
+   Image (Right Side)
+========================= */
+.service-card img,
+.service-card-right img {
+  position: absolute;
+  right: 0;
+  top: 0;
+
+  height: 100%;
+  width: 40%;
+  object-fit: cover;
+
+  border-radius: 0 16px 16px 0;
+  opacity: 0.9;
+}
+
+/* =========================
+   Overlay for Readability
+========================= */
+.service-card::after,
+.service-card-right::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+
+  background: linear-gradient(
+    90deg,
+    rgba(255, 255, 255, 0.96) 0%,
+    rgba(255, 255, 255, 0.9) 55%,
+    rgba(255, 255, 255, 0.3) 100%
+  );
+
+  z-index: 1;
+}
+
+/* =========================
+   Title
+========================= */
+.service-card h3,
+.service-card-right h3 {
+  padding-right: 10px;
+  font-size: 2rem;
+  font-weight: 600;
+  margin-bottom: 16px;
+  color: #111;
+}
+
+/* =========================
+   Text
+========================= */
+.service-card p,
+.service-card-right p {
+  font-size: 1rem;
+  text-align: justify;
+  line-height: 1.75;
+  color: #444;
+}
+
+/* =========================
+   Hover
+========================= */
+.service-card:hover,
+.service-card-right:hover {
+  transform: translateY(-4px);
+  box-shadow:
+    0 16px 40px rgba(0, 0, 0, 0.12),
+    0 6px 16px rgba(0, 0, 0, 0.08);
+}
+
+
 
 
 /* Hide extra text initially */
@@ -571,15 +678,25 @@ padding-bottom: 20px;
 footer {
   display: flex;
   flex-wrap: wrap; /* Allow items to wrap on smaller screens */
-  padding: 10px 20px;
+  padding: 10px 10px;
   background-color: #01012b;
   color: white;
-  font-size: 1rem;
+  font-size: .9rem;
   justify-content: space-between;
   align-items: center;
   text-align: center;
 }
+.footer-text {
+  display: flex;
+  justify-content: center; /* center horizontally */
+}
 
+.footer-text p {
+  display: flex;
+  align-items: center;     /* center vertically */
+  gap: 10px;               /* space between text and image */
+  margin: 0;
+}
 
 .social {
   display: flex;
@@ -730,48 +847,96 @@ footer {
   
 }
 
-@media (max-width: 600px) {
-  header {
-    flex-wrap: wrap;
-    padding: 10px 20px;
-  }
 
-  header nav {
-    display:none;
-    flex-direction: column;
-    background-color: #000000d7;
-    position: absolute;
-    top: 70px;
-    right: 20px;
-    width: auto;
-    border-radius: 4px;
-    overflow: hidden;
-    padding: 20px;
-  }
+@media (max-width: 720px) {
 
-  header nav.active {
-    display: flex;
-  }
+/* HEADER */
+header {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: #0b0b0b;
+  z-index: 100;
+}
 
-  header nav a {
-    margin: 10px 10px;
-    font-size: 18px;
-    padding: 10px;
-  }
+/* NAV DRAWER */
+.nav-links {
+  position: fixed;
+  top: 0;
+  right: -100%;
+  height: 100vh;
+  width: 280px;
+  background: rgba(0, 0, 0, 0.9);
+  backdrop-filter: blur(12px);
+  display: flex;
+  flex-direction: column;
+  padding-top: 120px;
+  transition: right 0.45s cubic-bezier(0.4, 0, 0.2, 1);
+  z-index: 1000;
+}
 
-  .hamburger {
-    display: block;
-    cursor: pointer;
-  }
+.nav-links.active {
+  right: 0;
+}
 
-  .hamburger span {
-    display: block;
-    width: 25px;
-    height: 3px;
-    margin: 5px;
-    background: white;
-    transition: all 0.5s ease;
-  }
+/* LINKS */
+.nav-links a {
+  color: #fff;
+  text-decoration: none;
+  font-size: 20px;
+  padding: 14px 30px;
+  transition: background 0.3s, transform 0.3s;
+}
+
+.nav-links a:hover {
+  background: rgba(255, 255, 255, 0.1);
+  transform: translateX(-6px);
+}
+
+/* WHATSAPP BUTTON */
+.nav-links .btn {
+  margin: 20px 30px;
+  background: #25d366;
+  color: #000;
+  text-align: center;
+  border-radius: 30px;
+  font-weight: 600;
+}
+
+.nav-links .btn:hover {
+  background: #1ebe5d;
+  transform: translateX(-4px);
+}
+
+/* HAMBURGER */
+.hamburger {
+  cursor: pointer;
+  z-index: 1100;
+}
+
+.hamburger span {
+  display: block;
+  width: 28px;
+  height: 3px;
+  margin: 6px;
+  background: white;
+  border-radius: 2px;
+  transition: all 0.35s ease;
+}
+
+/* 🍔 → ❌ ANIMATION */
+.hamburger.active span:nth-child(1) {
+  transform: rotate(45deg) translate(6px, 6px);
+}
+
+.hamburger.active span:nth-child(2) {
+  opacity: 0;
+}
+
+.hamburger.active span:nth-child(3) {
+  transform: rotate(-45deg) translate(7px, -7px);
+}
 
 
   .hero h1,
@@ -840,34 +1005,6 @@ footer {
   }
 }
 
-/* Tablets */
-@media (min-width: 601px) and (max-width: 991px) {
-  .hero h1,
-  .services-hero h1,
-  .about-hero h1 {
-    font-size: 2.5rem;
-  }
-
-  .hero p,
-  .services-hero p,
-  .about-hero p {
-    font-size: 1.2rem;
-  }
-
-  .service-card {
-    padding: 40px;
-    margin: 40px;
-  }
-
-  .about-text p,
-  .section-text {
-    font-size: 1rem;
-  }
-
-  .call-to-action h2 {
-    font-size: 2rem;
-  }
-}
 
 /* Small Laptops */
 @media (min-width: 992px) and (max-width: 1200px) {
